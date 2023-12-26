@@ -1,0 +1,517 @@
+<div class="site-wrapper">
+    <div class="main-overlay"></div>
+
+
+    <!-- section starts  -->
+    <section id="hero">
+        <div class="container-xl">
+            <div class="row gy-4">
+                <div class="col-lg-8">
+                    <div class="post featured-post-lg" *ngIf="displayedPosts.length > 0" [@slideInOut]="animationState"> 
+                        <div class="details clearfix">
+                          <a href="#" class="category-badge">{{displayedPosts[0].data.category.Category}}</a>
+                          <h2 class="post-title">
+                            <a [routerLink]="'/' + displayedPosts[0].id" [queryParams]="{id: displayedPosts[0].id}">{{ displayedPosts[0].data.title }}</a>
+                          </h2>
+                          <ul class="meta list-inline mb-0">
+                            <li class="list-inline-item">
+                              <a href="#">Techie Coder</a>
+                            </li>
+                            <li class="list-inline-item">{{ displayedPosts[0].data.createdAt.toMillis() | date }}</li>
+                          </ul>
+                        </div>
+                        <a [routerLink]="'/' + displayedPosts[0].id" [queryParams]="{id: displayedPosts[0].id}">
+                          <div class="thumb rounded">
+                            <img class="inner data-bg-image" src="{{ displayedPosts[0].data.postImgPath }}" alt="" />
+                          </div>
+                        </a>
+                      </div>                    
+                </div>
+                <!-- post-list.component.html -->
+
+                <div class="col-lg-4">
+                    <div class="post-tabs rounded bordered">
+                        <ul class="nav nav-tabs nav-pills nav-fill" id="postTab" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button (click)="setActiveTab('frontend')" [class.active]="activeTab === 'frontend'"
+                                    class="nav-link" id="popular-tab" type="button">
+                                    Frontend
+                                </button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button (click)="setActiveTab('backend')" [class.active]="activeTab === 'backend'"
+                                    class="nav-link" id="recent-tab" type="button">
+                                    Backend
+                                </button>
+                            </li>
+                        </ul>
+
+                        <div class="tab-content" id="postsTabContent">
+                            <div *ngIf="activeTab === 'frontend' || activeTab === 'backend'"
+                                class="tab-pane fade show active" id="posts" role="tabpanel">
+                                <!-- Post content here -->
+                                <div *ngIf="activeTab === 'frontend'">
+                                    <!-- Popular posts content here -->
+                                    <app-populars-posts></app-populars-posts>
+                                    <!-- ... -->
+                                </div>
+                                <div *ngIf="activeTab === 'backend'">
+                                    <!-- Recent posts content here -->
+                                    <app-recents-posts></app-recents-posts>
+                                    <!-- ... -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- main content  -->
+
+    <section class="main-content">
+        <div class="container-xl">
+            <div class="row gy-4">
+
+                <!-- left part 1st section  -->
+                <div class="col-lg-8">
+                    <div class="section-header">
+                        <h3 class="section-title">Featured</h3>
+                    </div>
+
+                    <div class="padding-30 rounded bordered">
+                        <div class="row gy-5">
+                            <div class="col-sm-6">
+                                <!-- post  -->
+                                <div class="post">
+                                    <div class="thumb rounded">
+                                        <a href="#" class="category-badge position-absolute">Lifestyle</a>
+                                        <span class="post-format">
+                                            <i class="icon-picture"></i>
+                                        </span>
+                                        <a href="#">
+                                            <div class="inner" *ngIf="bigFeaturePost"
+                                                [routerLink]="'/posts/' + bigFeaturePost.id">
+                                                <img src={{bigFeaturePost.data.postImgPath}} alt="">
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <ul class="meta list-inline mt-4 mb-0">
+                                        <li class="list-inline-item">
+                                            <a href="#">
+                                                <img class="author" src="../assets/images/other/author-sm.jpg" alt="">
+                                                Techie Coder
+                                            </a>
+                                        </li>
+                                        <li class="list-inline-item" *ngIf="bigFeaturePost">
+                                            {{bigFeaturePost.data.createdAt.toMillis() | date}}</li>
+                                    </ul>
+                                    <h5 class="post-title mb-3 mt-3">
+                                        <a [routerLink]="'/posts/' + bigFeaturePost.id"
+                                            *ngIf="bigFeaturePost">{{bigFeaturePost.data.title}}</a>
+                                    </h5>
+                                    <p class="excerpt mb-0" *ngIf="bigFeaturePost">{{bigFeaturePost.data.excerpt}}</p>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="spacer text-center text-black text-lg" data-height="50"
+                                    *ngIf="featuredArray.length===0">Loding..</div>
+                                <div class="post post-list-sm square" *ngFor="let featurePosr of featuredArray">
+                                    <div class="thumb rounded">
+                                        <a [routerLink]="'/posts/' + featurePosr.id">
+                                            <div class="inner">
+                                                <img src={{featurePosr.data.postImgPath}} alt="">
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <div class="details clearfix">
+                                        <h6 class="post-title my-0">
+                                            <a [routerLink]="'/posts/' + featurePosr.id">
+                                                {{featurePosr.data.title}}
+                                            </a>
+                                        </h6>
+                                        <ul class="meta list-inline mt-1 mb-0">
+                                            <!-- <li class="list-inline-item">{{ featurePosr.data.createdAt | date:'dd MMM yyyy' }}</li> -->
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ----------- End Feature ------------------ -->
+                    <!-- 
+                    <div class="spacer" data-height="50"></div>
+
+                    <div class="section-header">
+                        <h3 class="section-title">Trending</h3>
+                    </div>
+
+                    <div class="padding-30 rounded bordered" id="trendingSection">
+                        <div class="row gy-5">
+                            <div class="col-sm-6">
+                                <div class="post">
+                                    <div class="thumb rounded">
+                                        <a href="#" class="category-badge position-absolute">Business</a>
+                                        <span class="post-format">
+                                            <i class="icon-picture"></i>
+                                        </span>
+                                        <a href="#">
+                                            <div class="inner">
+                                                <img src="../assets/images/posts/tren-lg-1.jpg" alt="">
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <ul class="meta list-inline mt-4 mb-0">
+                                        <li class="list-inline-item">
+                                            <a href="#">
+                                                <img src="../assets/images/other/author-sm.jpg" class="author" alt="">
+                                                Techie Coder
+                                            </a>
+                                        </li>
+                                        <li class="list-inline-item">24 May 2021</li>
+                                    </ul>
+                                    <h5 class="post-title mb-3 mt-3">
+                                        <a href="#">Bitcoin investors lost $14.2bn in recent cypto crash</a>
+                                    </h5>
+                                    <p class="excerpt mb-0">
+                                        This is Lorem ipsum dolor, sit amet consectetur adipisicing elit. Accusamus,
+                                        id.
+                                    </p>
+                                </div>
+
+                                <div class="post post-list-sm square before-seperator">
+                                    <div class="thumb rounded">
+                                        <a href="#">
+                                            <div class="inner">
+                                                <img src="../assets/images/posts/tren-sm-1.jpg" alt="">
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <div class="details clearfix">
+                                        <h6 class="post-title my-0">
+                                            <a href="#">IPL 2021 to resume in sept 3rd week in UAE</a>
+                                        </h6>
+                                        <ul class="meta list-inline mt-1 mb-0">
+                                            <li class="list-inline-item">25 May 2021</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="post post-list-sm square before-seperator">
+                                    <div class="thumb rounded">
+                                        <a href="#">
+                                            <div class="inner">
+                                                <img src="../assets/images/posts/tren-sm-2.jpg" alt="">
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <div class="details clearfix">
+                                        <h6 class="post-title my-0">
+                                            <a href="#">HDFC Bank concerned over retail asset quality in
+                                                near-term</a>
+                                        </h6>
+                                        <ul class="meta list-inline mt-1 mb-0">
+                                            <li class="list-inline-item">25 May 2021</li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="col-sm-6">
+                                <div class="post">
+                                    <div class="thumb rounded">
+                                        <a href="#" class="category-badge position-absolute">Inspiration</a>
+                                        <span class="post-format">
+                                            <i class="icon-earphones"></i>
+                                        </span>
+                                        <a href="#">
+                                            <div class="inner">
+                                                <img src="../assets/images/posts/tren-lg-2.jpg" alt="">
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <ul class="meta list-inline mt-4 mb-0">
+                                        <li class="list-inline-item">
+                                            <a href="#">
+                                                <img src="../assets/images/other/author-sm.jpg" class="author" alt="">
+                                                Techie Coder
+                                            </a>
+                                        </li>
+                                        <li class="list-inline-item">29 May 2021</li>
+                                    </ul>
+                                    <h5 class="post-title mb-3 mt-3">
+                                        <a href="#">Spotify gives a discount for student</a>
+                                    </h5>
+                                    <p class="excerpt mb-0">
+                                        This is Lorem ipsum dolor, sit amet consectetur adipisicing elit. Accusamus,
+                                        id.
+                                    </p>
+                                </div>
+
+                                <div class="post post-list-sm square before-seperator">
+                                    <div class="thumb rounded">
+                                        <a href="#">
+                                            <div class="inner">
+                                                <img src="../assets/images/posts/tren-sm-3.jpg" alt="">
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <div class="details clearfix">
+                                        <h6 class="post-title my-0">
+                                            <a href="#">Arogya ap to display vaccination status</a>
+                                        </h6>
+                                        <ul class="meta list-inline mt-1 mb-0">
+                                            <li class="list-inline-item">25 May 2021</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="post post-list-sm square before-seperator">
+                                    <div class="thumb rounded">
+                                        <a href="#">
+                                            <div class="inner">
+                                                <img src="../assets/images/posts/tren-sm-4.jpg" alt="">
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <div class="details clearfix">
+                                        <h6 class="post-title my-0">
+                                            <a href="#">Petrol, diesel prices hiked again today.</a>
+                                        </h6>
+                                        <ul class="meta list-inline mt-1 mb-0">
+                                            <li class="list-inline-item">25 May 2021</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="spacer" data-height="50"></div>
+
+                    <div class="section-header">
+                        <h3 class="section-title">Inspiration</h3>
+                        <div class="slick-arrows-top">
+                            <button class="carousel-topNav-prev slick-custom-buttons" type="button" data-role="none"
+                                aria-label="Previous">
+                                <i class="icon-arrow-left"></i>
+                            </button>
+                            <button class="carousel-topNav-next slick-custom-buttons" type="button" data-role="none"
+                                aria-label="Next">
+                                <i class="icon-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+
+
+                    <div class="container">
+                        <div class="row post-carousel-twoCol post-carousel">
+                            <div class="col-md-6 mb-4">
+                                <div class="post post-over-content">
+                                    <div class="details clearfix">
+                                        <a href="#" class="category-badge">Entertainment</a>
+                                        <h4 class="post-title">
+                                            <a href="#">Amazon prime video to coproduce "Ram Setu"</a>
+                                        </h4>
+                                        <ul class="meta list-inline mb-0">
+                                            <li class="list-inline-item">
+                                                <a href="#">Techie Coder</a>
+                                            </li>
+                                            <li class="list-inline-item">03 Jun 2021</li>
+                                        </ul>
+                                    </div>
+                                    <a href="#">
+                                        <div class="thumb rounded">
+                                            <div class="inner">
+                                                <img src="../assets/images/posts/insp-1.jpg" alt="">
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 mb-4">
+                                <div class="post post-over-content">
+                                    <div class="details clearfix">
+                                        <a href="#" class="category-badge">Technology</a>
+                                        <h4 class="post-title">
+                                            <a href="#">How to prepare your Google account afterlife.</a>
+                                        </h4>
+                                        <ul class="meta list-inline mb-0">
+                                            <li class="list-inline-item">
+                                                <a href="#">Techie Coder</a>
+                                            </li>
+                                            <li class="list-inline-item">02 Jun 2021</li>
+                                        </ul>
+                                    </div>
+                                    <a href="#">
+                                        <div class="thumb rounded">
+                                            <div class="inner">
+                                                <img src="../assets/images/posts/insp-2.jpg" alt="">
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div> -->
+
+
+                    <!-- ----------------------Letest Post ------------------ -->
+                    <app-letets-posts></app-letets-posts>
+
+                    <!-- left part over here  -->
+                </div>
+                <!-- right part starts from here  -->
+
+                <div class="col-lg-4">
+                    <div class="sidebar m-0 p-0 stickyPart">
+                        <div class="widget rounded">      
+                            <div class="widget-about text-center">
+                                <div style="margin-top: -30px;"><app-logo></app-logo></div>
+                                <p class="mb-4" style="text-align: justify;">
+                                    Crack any interview with confidence! Our platform is your secret weapon for
+                                    mastering a wide range of questions and scenarios. Elevate your skills, showcase
+                                    your strengths, and secure that dream job.
+                                </p>
+                                <ul class="social-icons list-unstyled list-inline mb-0">
+                                    <li class="list-inline-item">
+                                        <a href="https://www.facebook.com/abidansari.ansari.127">
+                                            <i class="fab fa-facebook-f"></i>
+                                        </a>
+                                    </li>
+                                    <li class="list-inline-item">
+                                        <a href="https://www.instagram.com/abidansari5594/">
+                                            <i class="fab fa-instagram"></i>
+                                        </a>
+                                    </li>
+                                    <li class="list-inline-item">
+                                        <a href="https://www.linkedin.com/in/abid-ansari-523699248/">
+                                            <i class="fab fa-linkedin"></i>
+                                        </a>
+                                    </li>
+                                    <li class="list-inline-item">
+                                        <a href="#"><i class="far fa-envelope"></i></a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="widget rounded" style="margin-top: -50px;">
+                            <div class="widget-header text-center">
+                                <h3 class="widget-title">Newsletter</h3>
+                            </div>
+                            <div class="widget-content">
+                                <span class="newsletter-headline text-center mb-3">Join 5000+ subscribers</span>
+                                <form action="#">
+                                    <div class="mb-2">
+                                        <input type="email" class="form-control w-100 text-center"
+                                            placeholder="Email address...">
+                                    </div>
+                                    <button class="btn btn-default btn-full">Sign Up</button>
+
+                                </form>
+                                <span class="newsletter-privacy text-center mt-3">
+                                    By signing up, you agree to our <a href="#">Privacy policy</a>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <div class="instagram">
+        <div class="container-xl">
+            <a href="#" class="btn btn-default btn-instagram">Ace Any Interview</a>
+            <div class="instagram-feed d-flex flex-wrap">
+                <div class="insta-item col-sm-2 col-6 col-md-2">
+                    <a href="#">
+                        <img src="../assets/images/insta/insta-1.jpg" alt="">
+                    </a>
+                </div>
+                <div class="insta-item col-sm-2 col-6 col-md-2">
+                    <a href="#">
+                        <img src="../assets/images/insta/insta-2.jpg" alt="">
+                    </a>
+                </div>
+                <div class="insta-item col-sm-2 col-6 col-md-2">
+                    <a href="#">
+                        <img src="../assets/images/insta/insta-3.jpg" alt="">
+                    </a>
+                </div>
+                <div class="insta-item col-sm-2 col-6 col-md-2">
+                    <a href="#">
+                        <img src="../assets/images/insta/insta-4.jpg" alt="">
+                    </a>
+                </div>
+                <div class="insta-item col-sm-2 col-6 col-md-2">
+                    <a href="#">
+                        <img src="../assets/images/insta/insta-5.jpg" alt="">
+                    </a>
+                </div>
+                <div class="insta-item col-sm-2 col-6 col-md-2">
+                    <a href="#">
+                        <img src="../assets/images/insta/insta-6.jpg" alt="">
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container-xl">
+            <div class="footer-inner">
+                <div class="row d-flex align-items-center gy-4">
+                    <div class="col-md-4">
+                        <span class="copyright">&copy; 2021 interview preparation</span>
+                    </div>
+                    <div class="col-md-4 text-center">
+                        <ul class="social-icons list-unstyled list-inline mb-0">
+                            <li class="list-inline-item">
+                                <a href="https://www.facebook.com/abidansari.ansari.127">
+                                    <i class="fab fa-facebook-f"></i>
+                                </a>
+                            </li>
+                            <li class="list-inline-item">
+                                <a href="https://www.instagram.com/abidansari5594/">
+                                    <i class="fab fa-instagram"></i>
+                                </a>
+                            </li>
+                            <li class="list-inline-item">
+                                <a href="https://www.linkedin.com/in/abid-ansari-523699248/">
+                                    <i class="fab fa-linkedin"></i>
+                                </a>
+                            </li>
+                            <li class="list-inline-item">
+                                <a href="#"><i class="far fa-envelope"></i></a>
+                            </li>
+                            <!-- <li class="list-inline-item">
+                                <a href="#">
+                                    <i class="fab fa-itunes"></i>
+                                </a>
+                            </li>
+                            <li class="list-inline-item">
+                                <a href="#">
+                                    <i class="fab fa-youtube"></i>
+                                </a>
+                            </li> -->
+                        </ul>
+                    </div>
+                    <div class="col-md-4">
+                        <a href="#" id="return-to-top" class="float-md-end">
+                            <i class="icon-arrow-up"></i>
+                            Back to Top
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+
+
+</div>
